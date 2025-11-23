@@ -42,7 +42,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.shoeprotector.ui.components.DeleteCardDialog
 import com.example.shoeprotector.viewmodel.CardViewModel
 import com.example.shoeprotector.viewmodel.FetchCardState
 import io.ktor.util.reflect.instanceOf
@@ -54,6 +59,17 @@ fun CardHomeScreen(onAddRegister: () -> Unit, scaffoldPadding: PaddingValues,mod
 
     LaunchedEffect(Unit) {
         cardViewModel.initView()
+    }
+
+    if(state.showDeleteDialog) {
+        DeleteCardDialog(
+            onDelete = {
+                cardViewModel.deleteCard()
+            },
+            onDismiss =  {
+                cardViewModel.closeDeleteDialog()
+            }
+        )
     }
 
     Column(
@@ -78,7 +94,7 @@ fun CardHomeScreen(onAddRegister: () -> Unit, scaffoldPadding: PaddingValues,mod
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        when(val s = state) {
+        when(val s = state.fetchCardState) {
             is FetchCardState.Loading -> {
                 CircularProgressIndicator()
             }
@@ -150,7 +166,9 @@ fun CardHomeScreen(onAddRegister: () -> Unit, scaffoldPadding: PaddingValues,mod
                                         )
 
                                         FilledIconButton(
-                                            onClick = {},
+                                            onClick = {
+                                                cardViewModel.showDeleteDialog(card.id)
+                                            },
                                             shape = RoundedCornerShape(12.dp),
                                             colors = IconButtonColors(
                                                 Color.Red,

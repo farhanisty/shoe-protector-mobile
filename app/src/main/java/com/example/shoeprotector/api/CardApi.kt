@@ -3,6 +3,7 @@ package com.example.shoeprotector.api
 import com.example.shoeprotector.model.card.CardResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 
 class CardApi(private val client: HttpClient) {
@@ -10,5 +11,11 @@ class CardApi(private val client: HttpClient) {
 
     suspend fun getAllCards(): CardResponse {
         return client.get("$baseUrl/card").body()
+    }
+
+    suspend fun deleteCardById(cardId: String): Boolean {
+        val status = client.delete("$baseUrl/card/$cardId").status.value;
+
+        return status in 200..299
     }
 }
