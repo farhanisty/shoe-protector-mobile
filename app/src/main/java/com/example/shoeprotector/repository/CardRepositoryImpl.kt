@@ -8,4 +8,7 @@ class CardRepositoryImpl(
 ): CardRepository {
     override suspend fun getCards(): CardResponse = cardApi.getAllCards()
     override suspend fun deleteCard(cardId: String) = cardApi.deleteCardById(cardId)
+    override suspend fun createCard(cardId: String, name: String) {
+        cardApi.createCard(cardId, name)
+    }
 }

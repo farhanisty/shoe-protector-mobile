@@ -3,6 +3,7 @@ package com.example.shoeprotector.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shoeprotector.repository.CardRepository
 import com.example.shoeprotector.repository.WebSocketRepository
 import io.socket.client.Socket
 import kotlinx.coroutines.delay
@@ -11,7 +12,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RegisterCardViewModel(
-    private val socket: Socket
+    private val socket: Socket,
+    private val cardRepository: CardRepository
 ): ViewModel() {
     private val _inputName = MutableStateFlow("")
     val inputName = _inputName.asStateFlow()
@@ -43,7 +45,7 @@ class RegisterCardViewModel(
 
         viewModelScope.launch {
             try {
-                delay(3000L)
+                _idCard.value?.let { cardRepository.createCard(it, _inputName.value) }
 
                 updateInputName("")
                 _idCard.value = null
