@@ -49,6 +49,7 @@ class CardViewModel(
             try {
                 val result = state.value.cardId?.let { cardRepository.deleteCard(it) }
                 closeDeleteDialog()
+                initView()
             } catch (e: Exception) {
                 closeDeleteDialog()
             }
