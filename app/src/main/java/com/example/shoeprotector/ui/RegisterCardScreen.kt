@@ -27,7 +27,7 @@ import com.example.shoeprotector.viewmodel.RegisterCardViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun RegisterCardScreen(scaffoldPadding: PaddingValues, modifier: Modifier = Modifier, registerCardViewModel: RegisterCardViewModel = koinViewModel()) {
+fun RegisterCardScreen(scaffoldPadding: PaddingValues, backToCardScreen: () -> Unit, modifier: Modifier = Modifier, registerCardViewModel: RegisterCardViewModel = koinViewModel()) {
     val inputName by registerCardViewModel.inputName.collectAsState()
     val idCard by registerCardViewModel.idCard.collectAsState()
     val isLoading by registerCardViewModel.isLoading.collectAsState()
@@ -85,7 +85,7 @@ fun RegisterCardScreen(scaffoldPadding: PaddingValues, modifier: Modifier = Modi
 
                 Button(
                     onClick = {
-                        registerCardViewModel.performRegister()
+                        registerCardViewModel.performRegister(backToCardScreen)
                     },
                     enabled = !isLoading && idCard != null,
                     modifier = Modifier

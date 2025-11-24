@@ -40,7 +40,7 @@ class RegisterCardViewModel(
         _inputName.value = newInputName
     }
 
-    fun performRegister() {
+    fun performRegister(backToCardScreen: () -> Unit) {
         _isLoading.value = true
 
         viewModelScope.launch {
@@ -48,6 +48,8 @@ class RegisterCardViewModel(
                 _idCard.value?.let { cardRepository.createCard(it, _inputName.value) }
 
                 updateInputName("")
+
+                backToCardScreen()
                 _idCard.value = null
             } catch (e: Exception) {
 

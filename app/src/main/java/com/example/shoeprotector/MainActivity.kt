@@ -134,7 +134,16 @@ class MainActivity : ComponentActivity() {
                             composable(
                                 route = Screen.RegisterCardScreen.route
                             ) {
-                                RegisterCardScreen(innerPadding)
+                                RegisterCardScreen(
+                                    innerPadding,
+                                    backToCardScreen = {
+                                        navController.navigate(Screen.CardHomeScreen.route) {
+                                            popUpTo(Screen.CardHomeScreen.route) {
+                                                inclusive = true
+                                            }
+                                        }
+                                    }
+                                )
                             }
 
                             composable(
