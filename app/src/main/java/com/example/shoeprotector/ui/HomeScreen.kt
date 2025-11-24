@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -24,7 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -37,6 +42,48 @@ fun HomeScreen(innerPadding: PaddingValues, modifier: Modifier = Modifier) {
         modifier = modifier
             .padding(innerPadding)
     ) {
+        Card(
+            colors = CardColors(
+                Color.Blue,
+                Color.White,
+                Color.Green,
+                Color.White
+            ),
+            modifier = Modifier
+                .padding(horizontal = 12.dp)
+                .padding(bottom = 12.dp)
+                .fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(12.dp)
+            ) {
+                Text(
+                    "Statistic".toUpperCase(),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier
+                        .padding(vertical=8.dp),
+                    color = Color.White,
+                    thickness = 2.dp
+                )
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Text(
+                        "Total Attempt : 0"
+                    )
+                    Text(
+                        "Last Attempt : 21 November 2025"
+                    )
+                }
+            }
+
+        }
         Column(
             modifier = Modifier
                 .padding(horizontal = 12.dp)
