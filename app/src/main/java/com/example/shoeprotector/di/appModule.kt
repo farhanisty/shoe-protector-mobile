@@ -1,6 +1,7 @@
 package com.example.shoeprotector.di
 
 import com.example.shoeprotector.viewmodel.CardViewModel
+import com.example.shoeprotector.viewmodel.HomeViewModel
 import com.example.shoeprotector.viewmodel.LoginViewModel
 import com.example.shoeprotector.viewmodel.RegisterCardViewModel
 import com.example.shoeprotector.viewmodel.SplashViewModel
@@ -12,4 +13,5 @@ val appModule = module {
     viewModel { RegisterCardViewModel(get(), get()) }
     viewModel { CardViewModel(get()) }
     viewModel { SplashViewModel(get()) }
+    viewModel { HomeViewModel(get()) }
 }

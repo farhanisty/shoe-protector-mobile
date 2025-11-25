@@ -2,6 +2,7 @@ package com.example.shoeprotector.di
 
 import com.example.shoeprotector.api.CardApi
 import com.example.shoeprotector.api.KtorWebSocketClient
+import com.example.shoeprotector.api.LogApi
 import com.example.shoeprotector.api.StatusApi
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -13,6 +14,8 @@ val apiModule = module {
     }
 
     single { StatusApi(get())}
+
+    single { LogApi(get()) }
 
     single { KtorWebSocketClient() }
 

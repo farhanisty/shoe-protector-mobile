@@ -1,5 +1,7 @@
 package com.example.shoeprotector.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
@@ -21,6 +25,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,9 +41,15 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.shoeprotector.Screen
+import com.example.shoeprotector.getRelativeTime
+import com.example.shoeprotector.viewmodel.HomeViewModel
+import org.koin.androidx.compose.koinViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun HomeScreen(innerPadding: PaddingValues, modifier: Modifier = Modifier) {
+fun HomeScreen(innerPadding: PaddingValues, modifier: Modifier = Modifier, homeViewModel: HomeViewModel = koinViewModel()) {
+    val logs by homeViewModel.logs.collectAsState()
+
     Column (
         modifier = modifier
             .padding(innerPadding)
@@ -84,58 +96,79 @@ fun HomeScreen(innerPadding: PaddingValues, modifier: Modifier = Modifier) {
             }
 
         }
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(horizontal = 12.dp)
         ) {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
+            items(logs) { log ->
+                Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(end=12.dp)
                 ) {
-                    Column(
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier
-                            .padding(12.dp)
+                            .fillMaxWidth()
+                            .padding(end=12.dp)
                     ) {
-                        Text(
-                            "Attempt By: Farhannivta",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        Spacer(
+                        Column(
                             modifier = Modifier
-                                .height(12.dp)
-                        )
+                                .padding(12.dp)
+                        ) {
+                            Text(
+                                "Attempt By: ${log.card.name ?: "Unknown"}",
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold
+                            )
 
-                        Text(
-                            "13:12 11 November 2025",
-                            fontSize = 10.sp,
-                            color = Color.DarkGray
-                        )
-                    }
+                            Spacer(
+                                modifier = Modifier
+                                    .height(12.dp)
+                            )
 
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(50.dp))
-                            .background(Color.Green)
-                    ) {
-                        Text(
-                            "Success",
-                            modifier = Modifier
-                                .padding(
-                                    horizontal = 16.dp,
-                                    vertical = 6.dp
+                            Text(
+                                getRelativeTime(log.createdAt),
+                                fontSize = 12.sp,
+                                color = Color.DarkGray
+                            )
+                        }
+
+                        if(log.isSuccess) {
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .background(Color.Green)
+                            ) {
+                                Text(
+                                    "Success",
+                                    modifier = Modifier
+                                        .padding(
+                                            horizontal = 16.dp,
+                                            vertical = 6.dp
+                                        )
                                 )
-                        )
-                    }
+                            }
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .background(Color.Red)
+                            ) {
+                                Text(
+                                    "Failed",
+                                    modifier = Modifier
+                                        .padding(
+                                            horizontal = 16.dp,
+                                            vertical = 6.dp
+                                        )
+                                )
+                            }
+                        }
 
+
+
+                    }
                 }
             }
         }
