@@ -98,7 +98,8 @@ fun HomeScreen(innerPadding: PaddingValues, modifier: Modifier = Modifier, homeV
         }
         LazyColumn(
             modifier = Modifier
-                .padding(horizontal = 12.dp)
+                .padding(horizontal = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(logs) { log ->
                 Card(

@@ -53,6 +53,8 @@ dependencies {
     implementation("io.socket:socket.io-client:2.1.0")  // versi stabil
     implementation("org.json:json:20210307")
 
+    implementation("com.google.code.gson:gson:2.11.0")
+
 
     // Koin Core & Android
     implementation("io.insert-koin:koin-android:3.4.2")

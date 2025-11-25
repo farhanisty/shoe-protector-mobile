@@ -13,5 +13,5 @@ val appModule = module {
     viewModel { RegisterCardViewModel(get(), get()) }
     viewModel { CardViewModel(get()) }
     viewModel { SplashViewModel(get()) }
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(get(), get()) }
 }
